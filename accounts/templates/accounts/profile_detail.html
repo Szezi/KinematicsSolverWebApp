@@ -1,0 +1,101 @@
+{% extends 'base_2.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid">
+      <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('{% static 'img/curved-images/curved0.jpg' %}'); background-position-y: 50%;">
+        <span class="mask bg-gradient-primary opacity-6"></span>
+      </div>
+      <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
+        <div class="row gx-4">
+          <div class="col-auto">
+            <div class="avatar avatar-xl position-relative">
+              <img src="{{profile.avatar.url}}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+            </div>
+          </div>
+          <div class="col-auto my-auto">
+            <div class="h-100">
+              <h5 class="mb-1">
+                {{profile.username}}
+              </h5>
+              <p class="mb-0 font-weight-bold text-sm">
+                {{profile.description}}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12 col-xl-4">
+          <div class="card h-100">
+            <div class="card-header pb-0 p-3">
+              <h6 class="mb-0">Accounts Settings</h6>
+            </div>
+            <div class="card-body p-3">
+              <ul class="list-group">
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Password:</strong> &nbsp; *********</li>
+                <li class="list-group-item border-0 px-0">
+                  <a href="{% url 'password-change' %}" class="btn btn-link pe-3 ps-0 mb-0 ms-auto">Change password</a>
+                </li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; {{profile.email}}</li>
+                <li class="list-group-item border-0 px-0">
+                  <a href="{% url 'email-change' %}" class="btn btn-link pe-3 ps-0 mb-0 ms-auto">Change email</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-4">
+          <div class="card h-100">
+            <div class="card-header pb-0 p-3">
+              <div class="row">
+                <div class="col-md-8 d-flex align-items-center">
+                  <h6 class="mb-0">Profile Information</h6>
+                </div>
+                <div class="col-md-4 text-end">
+                  <a href="{% url 'profile-update' %}">
+                    <i class="ni ni-settings-gear-65" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-3">
+             <ul class="list-group">
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Username:</strong> &nbsp; {{profile.username}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">First Name:</strong> &nbsp; {{profile.first_name}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Last Name:</strong> &nbsp; {{profile.last_name}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Phone:</strong> &nbsp; {{profile.phoneNumber}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">City:</strong>&nbsp; {{profile.city}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Bio:</strong>&nbsp; {{profile.bio}}</li>
+                <hr class="horizontal gray-light my-4">
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-4">
+          <div class="card h-100">
+            <div class="card-header pb-0 p-3">
+              <h6 class="mb-0">Projects admin</h6>
+            </div>
+            <div class="card-body p-3">
+              <ul class="list-group">
+                        <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                          <div class="avatar me-3">
+                            <img src="{% static 'img/illustrations/Kanban.png' %}" alt="Kanban" class="border-radius-lg shadow">
+                          </div>
+                          <div class="d-flex align-items-start flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Project 1</h6>
+                            <p class="mb-0 text-xs">project.description</p>
+                          </div>
+                          <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto" href="">View project</a>
+                        </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}
