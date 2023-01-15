@@ -130,7 +130,4 @@ dmypy.json
 .pyre/
 
 db.sqlite3
-core/migrations
-robot/migrations
-accounts/migrations
 data
