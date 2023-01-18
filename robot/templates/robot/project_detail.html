@@ -1,0 +1,44 @@
+{% extends 'base_2.html' %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid">
+      <div class="page-header min-height-0 border-radius-xl mt-4">
+        <span class="mask bg-gradient-primary opacity-6"></span>
+      </div>
+      <div class="card card-body">
+        <div class="row gx-4">
+          <div class="col-auto">
+            <div class="avatar avatar-xl position-relative">
+              <img src="{% static 'img/illustrations/Kanban.png' %}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+            </div>
+          </div>
+          <div class="col-auto my-auto">
+            <div class="h-100">
+              <h5 class="mb-1">
+                {{project.name}}
+              </h5>
+              <p class="mb-0 font-weight-bold text-sm">
+                {{project.description}}
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+            <div class="nav-wrapper position-relative end-0">
+              <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
+                <li class="nav-item">
+                  <a class="btn btn-link text-dark px-1 mb-0" href="{% url 'project-update' board.id %}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true">&nbsp; Edit</i></a>
+                </li>
+                <li class="nav-item">
+                  <a class="btn btn-link text-danger text-gradient px-1 mb-0" href="{% url 'project-delete' board.id %}"><i class="far fa-trash-alt me-2">&nbsp; Delete</i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid py-4">
+      <h1>Project detail</h1>
+    </div>
+
+{% endblock content %}
