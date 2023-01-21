@@ -27,7 +27,12 @@ class DashboardView(ListView):
 class ProjectDetail(LoginRequiredMixin, DetailView):
     template_name = 'robot/project_detail.html'
     model = Project
-    context_object_name = 'board'
+    context_object_name = 'project'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['robots'] = Robot.objects.all()
+        return context
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -76,3 +81,57 @@ class ProjectDelete(LoginRequiredMixin, DeleteView):
         if not request.user.is_authenticated:
             return redirect('home')
         return super(ProjectDelete, self).dispatch(request, *args, **kwargs)
+
+
+class RobotDetail(LoginRequiredMixin, DetailView):
+    template_name = 'robot/robot_detail.html'
+    model = Robot
+    context_object_name = 'robot'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        return super(RobotDetail, self).dispatch(request, *args, **kwargs)
+
+
+class RobotCreate(LoginRequiredMixin, CreateView):
+    template_name = 'robot/robot_form.html'
+    model = Robot
+    fields = '__all__'
+    success_url = reverse_lazy('dashboard')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(RobotCreate, self).form_valid(form)
+
+    def get_initial(self):
+        return {'owner': self.request.user}
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        return super(RobotCreate, self).dispatch(request, *args, **kwargs)
+
+
+class RobotUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'robot/robot_update.html'
+    model = Robot
+    fields = '__all__'
+    context_object_name = 'robot'
+    success_url = reverse_lazy('dashboard')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        return super(RobotUpdate, self).dispatch(request, *args, **kwargs)
+
+
+class RobotDelete(LoginRequiredMixin, DeleteView):
+    model = Robot
+    context_object_name = 'robot'
+    success_url = reverse_lazy('dashboard')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        return super(RobotDelete, self).dispatch(request, *args, **kwargs)
