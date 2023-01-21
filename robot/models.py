@@ -23,7 +23,7 @@ class Robot(models.Model):
     description = models.CharField(max_length=100, null=True, blank=True, default='Task description')
     notes = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     link1 = models.IntegerField(null=True, blank=True, default=118)
     link2 = models.IntegerField(null=True, blank=True, default=150)
     link3 = models.IntegerField(null=True, blank=True, default=150)
@@ -41,7 +41,7 @@ class Robot(models.Model):
     link5_max = models.IntegerField(null=True, blank=True, default=0)
 
     def __str__(self):
-        return self.title
+        return self.name
 
     class Meta:
         ordering = ['created']
