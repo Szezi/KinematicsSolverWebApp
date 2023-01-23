@@ -75,7 +75,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Date</p>
                     <h5 class="font-weight-bolder mb-0">
-                      12/12/2022
+                      {% now "d/m/Y" %}
                     </h5>
                   </div>
                 </div>
@@ -176,7 +176,7 @@
                               <div class="avatar-group mt-2">
                                 {% for member in project.members.all %}
                                   <a href="{% url 'profile-info' member.id%}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{member}}">
-                                    <img src="{{member.avatar.url}}" alt="{{project.name}}">
+                                    <img src="{{member.avatar.url}}" alt="{{member}}">
                                   </a>
                                 {% endfor %}
                               </div>
@@ -196,13 +196,15 @@
         </div>
         <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
           <div class="card" style="min-height: 22rem;">
+            {% if robot_last %}
+              {% for robot in robot_last %}
                   <div class="card-header pb-0">
                     <div class="row">
                       <div class="col-md-8 d-flex align-items-center">
                         <h6 class="mb-0">Last robot calculation</h6>
                       </div>
                       <div class="col-md-4 text-end">
-                          <a class="btn btn-link text-danger text-gradient px-1 mb-0" href="">View</a>
+                          <a class="btn btn-link text-danger text-gradient px-1 mb-0" href="{% url 'robot-detail' robot.id%}">View</a>
                         </div>
                     </div>
                   </div>
@@ -210,13 +212,13 @@
                     <div class="container">
                       <div class="row mb-3">
                         <div class="col">
-                          <span>Title</span>
+                          <span>{{robot.name}}</span>
                         </div>
                       </div>
                       <div class="row mb-3">
                         <div class="col">
                           <li class="list-group">
-                              <span class="mb-2 text-xs">Created: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.created}}</span></span>
+                              <span class="mb-2 text-xs">Created: <span class="text-dark font-weight-bold ms-sm-2"></br>{{robot.created}}</span></span>
 
                          </li>
                         </div>
@@ -224,34 +226,36 @@
                       <div class="row mb-3">
                         <div class="col-4">
                          <li class="list-group">
-                              <span class="mb-2 text-xs">Link1: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.get_state_display}}</span></span>
-                              <span class="mb-2 text-xs">Link2: <span class="text-dark ms-sm-2 font-weight-bold"></br>{{task.task.description}}</span></span>
-                              <span class="mb-2 text-xs">Link3: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
-                              <span class="mb-2 text-xs">Link4: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
-                              <span class="mb-2 text-xs">Link5: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
+                              <span class="mb-2 text-xs">Link1: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link1}} mm</span></span>
+                              <span class="mb-2 text-xs">Link2: <span class="text-dark ms-sm-2 font-weight-bold">{{robot.link2}} mm</span></span>
+                              <span class="mb-2 text-xs">Link3: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link3}} mm</span></span>
+                              <span class="mb-2 text-xs">Link4: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link4}} mm</span></span>
+                              <span class="mb-2 text-xs">Link5: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link5}} mm</span></span>
                          </li>
                         </div>
                         <div class="col-4">
                          <li class="list-group">
-                              <span class="mb-2 text-xs">Link1 min: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.get_state_display}}</span></span>
-                              <span class="mb-2 text-xs">Link2 min: <span class="text-dark ms-sm-2 font-weight-bold"></br>{{task.task.description}}</span></span>
-                              <span class="mb-2 text-xs">Link3 min: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
-                              <span class="mb-2 text-xs">Link4 min: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
-                              <span class="mb-2 text-xs">Link5 min: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
+                              <span class="mb-2 text-xs">Link1 min: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link1_min}} deg</span></span>
+                              <span class="mb-2 text-xs">Link2 min: <span class="text-dark ms-sm-2 font-weight-bold">{{robot.link2_min}} deg</span></span>
+                              <span class="mb-2 text-xs">Link3 min: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link3_min}} deg</span></span>
+                              <span class="mb-2 text-xs">Link4 min: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link4_min}} deg</span></span>
+                              <span class="mb-2 text-xs">Link5 min: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link5_min}} deg</span></span>
                          </li>
                         </div>
                         <div class="col-4">
                          <li class="list-group">
-                              <span class="mb-2 text-xs">Link1 max: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.get_state_display}}</span></span>
-                              <span class="mb-2 text-xs">Link2 max: <span class="text-dark ms-sm-2 font-weight-bold"></br>{{task.task.description}}</span></span>
-                              <span class="mb-2 text-xs">Link3 max: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
-                              <span class="mb-2 text-xs">Link4 max: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
-                              <span class="mb-2 text-xs">Link5 max: <span class="text-dark font-weight-bold ms-sm-2"></br>{{task.task.notes}}</span></span>
+                              <span class="mb-2 text-xs">Link1 max: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link1_max}} deg</span></span>
+                              <span class="mb-2 text-xs">Link2 max: <span class="text-dark ms-sm-2 font-weight-bold">{{robot.link2_max}} deg</span></span>
+                              <span class="mb-2 text-xs">Link3 max: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link3_max}} deg</span></span>
+                              <span class="mb-2 text-xs">Link4 max: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link4_max}} deg</span></span>
+                              <span class="mb-2 text-xs">Link5 max: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link5_max}} deg</span></span>
                          </li>
                         </div>
                       </div>
                     </div>
                   </div>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </div>
