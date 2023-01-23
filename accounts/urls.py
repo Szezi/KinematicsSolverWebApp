@@ -1,8 +1,8 @@
 from django.urls import path
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
 from .views import CustomLoginView, CustomRegisterView, UserDetail, UserUpdate, UserInfo, EmailChangeView, CustomPasswordChangeView
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('login', CustomLoginView.as_view(), name='login'),

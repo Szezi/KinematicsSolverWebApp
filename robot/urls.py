@@ -1,6 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from .views import DashboardView, ProjectCreate, ProjectDelete, ProjectUpdate, ProjectDetail, RobotCreate, RobotDelete, RobotUpdate, RobotDetail
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('dashboard', DashboardView.as_view(), name='dashboard'),
@@ -15,3 +16,4 @@ urlpatterns = [
     path('robot-update/<int:pk>/', RobotUpdate.as_view(), name='robot-update'),
     path('robot-delete/<int:pk>/', RobotDelete.as_view(), name='robot-delete'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
