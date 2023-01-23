@@ -15,6 +15,8 @@ class DashboardView(ListView):
         context = super().get_context_data(**kwargs)
         context['project_member'] = Project.objects.filter(members=self.request.user).count()
         context['project_admin'] = Project.objects.filter(admin=self.request.user).count()
+        context['robot_last'] = Robot.objects.all().filter(owner=self.request.user).order_by('-created')[0:1]
+
 
         return context
 
@@ -31,7 +33,9 @@ class ProjectDetail(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['robots'] = Robot.objects.all()
+        pk = self.kwargs['pk']
+        context['robots'] = Robot.objects.filter(project=pk)
+        context['robots_number'] = Robot.objects.filter(project=pk).count()
         return context
 
     def dispatch(self, request, *args, **kwargs):
@@ -99,6 +103,12 @@ class RobotCreate(LoginRequiredMixin, CreateView):
     model = Robot
     fields = '__all__'
     success_url = reverse_lazy('dashboard')
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)  # Get the form as usual
+        user = self.request.user
+        form.fields['project'].queryset = Project.objects.filter(members=user)
+        return form
 
     def form_valid(self, form):
         form.instance.user = self.request.user
