@@ -15,7 +15,7 @@
           <div class="col-auto my-auto">
             <div class="h-100">
               <h5 class="mb-1">
-                {{robot.name}}
+                Update {{robot.name}}
               </h5>
               <p class="mb-0 font-weight-bold text-sm">
                 {{robot.description}}
@@ -48,22 +48,49 @@
       </div>
     </div>
     <div class="container-fluid py-4">
-      <div class="row justify-content-md-center">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header pb-0 px-3">
-              <h6 class="mb-0">Update robot</h6>
+      <form method="POST" action="">
+        <div class="row justify-content-md-center">
+            {% csrf_token %}
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header pb-0 px-3">
+                  <h6 class="mb-0">Robots info</h6>
+                </div>
+                <div class="card-body pt-4 p-3" style="min-height: 33rem;">
+                  <ul class="list-group">
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Project:</strong> &nbsp; {{form.project}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Name:</strong> {{form.name}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Description:</strong> {{form.description}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Notes:</strong> {{form.notes}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Owner:</strong> {{form.owner}} </li>
+                 </ul>
+                </div>
+              </div>
             </div>
-            <div class="card-body pt-4 p-3">
-                <form method="POST" action="">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <input class="button" type="submit" value="Submit">
-                </form>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header pb-0 px-3">
+                  <h6 class="mb-0">Robots parameters</h6>
+                </div>
+                <div class="card-body pt-4 p-3" style="min-height: 33rem;">
+                  <ul class="list-group">
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link1:</strong> {{form.link1}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link2:</strong> {{form.link2}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link3:</strong> {{form.link3}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link4:</strong> {{form.link4}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link5:</strong> {{form.link5}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link1 range:</strong> {{form.link1_min}} {{form.link1_max}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link2 range:</strong> {{form.link2_min}} {{form.link2_max}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link3 range:</strong> {{form.link3_min}} {{form.link3_max}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link4 range:</strong> {{form.link4_min}} {{form.link4_max}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Link5 range:</strong> {{form.link5_min}} {{form.link5_max}}</li>
+                  </ul>
+                  <input class="button" type="submit" value="Submit">
+                </div>
+              </div>
             </div>
-          </div>
         </div>
-      </div>
+      </form>
     </div>
 
 {% endblock content %}
