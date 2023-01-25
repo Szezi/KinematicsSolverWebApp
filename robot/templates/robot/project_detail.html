@@ -50,7 +50,7 @@
                   </p>
                 </div>
                 <div class="col-lg-6 col-7 text-end">
-                  <a class="btn btn-link text-dark px-1 mb-0" href="{% url 'project-create' %}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true">&nbsp; Add new robot</i></a>
+                  <a class="btn btn-link text-dark px-1 mb-0" href="{% url 'robot-create' %}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true">&nbsp; Add new robot</i></a>
                 </div>
               </div>
             </div>
@@ -88,7 +88,7 @@
                             </td>
                             <td>
                               <div class="avatar-group mt-2 px-4">
-                                  <a href="" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{robot.owner}}">
+                                  <a href="{% url 'profile-info' robot.owner.id%}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{robot.owner}}">
                                     <img src="{{robot.owner.avatar.url}}" alt="{{robot.owner}}">
                                   </a>
                               </div>
