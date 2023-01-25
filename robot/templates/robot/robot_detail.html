@@ -38,7 +38,151 @@
       </div>
     </div>
     <div class="container-fluid py-4">
-        <h3>Robot detail</h3>
+        <div class="row justify-content-md-center">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header pb-0 px-3">
+                  <h6 class="mb-0">Robots info</h6>
+                </div>
+                <div class="card-body pt-4 p-3" style="min-height: 15rem;">
+                  <ul class="list-group">
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Project:</strong> &nbsp; {{robot.project}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Notes:</strong> {{robot.notes}}</li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Owner:</strong> {{robot.owner}} </li>
+                    <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Created:</strong> {{robot.created}} </li>
+                 </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header pb-0 px-3">
+                  <h6 class="mb-0">Robots parameters</h6>
+                </div>
+                <div class="card-body pt-5 p-3" style="min-height: 15rem;">
+                  <div class="row mb-3">
+                        <div class="col-4">
+                         <li class="list-group">
+                              <span class="mb-2 text-xs">Link1: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link1}} mm</span></span>
+                              <span class="mb-2 text-xs">Link2: <span class="text-dark ms-sm-2 font-weight-bold">{{robot.link2}} mm</span></span>
+                              <span class="mb-2 text-xs">Link3: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link3}} mm</span></span>
+                              <span class="mb-2 text-xs">Link4: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link4}} mm</span></span>
+                              <span class="mb-2 text-xs">Link5: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link5}} mm</span></span>
+                         </li>
+                        </div>
+                        <div class="col-4">
+                         <li class="list-group">
+                              <span class="mb-2 text-xs">Link1 min: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link1_min}} deg</span></span>
+                              <span class="mb-2 text-xs">Link2 min: <span class="text-dark ms-sm-2 font-weight-bold">{{robot.link2_min}} deg</span></span>
+                              <span class="mb-2 text-xs">Link3 min: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link3_min}} deg</span></span>
+                              <span class="mb-2 text-xs">Link4 min: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link4_min}} deg</span></span>
+                              <span class="mb-2 text-xs">Link5 min: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link5_min}} deg</span></span>
+                         </li>
+                        </div>
+                        <div class="col-4">
+                         <li class="list-group">
+                              <span class="mb-2 text-xs">Link1 max: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link1_max}} deg</span></span>
+                              <span class="mb-2 text-xs">Link2 max: <span class="text-dark ms-sm-2 font-weight-bold">{{robot.link2_max}} deg</span></span>
+                              <span class="mb-2 text-xs">Link3 max: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link3_max}} deg</span></span>
+                              <span class="mb-2 text-xs">Link4 max: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link4_max}} deg</span></span>
+                              <span class="mb-2 text-xs">Link5 max: <span class="text-dark font-weight-bold ms-sm-2">{{robot.link5_max}} deg</span></span>
+                         </li>
+                        </div>
+                      </div>
+                  <!-- Button trigger modal -->
+                  <a class="btn btn-link text-dark ps-0 mb-0 ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal">View description</a>
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: max-content">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Robot parameters description</h5>
+                          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <img src="{% static 'img/scheme.png' %}" class="display-2" alt="xd">
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center py-4">
+          <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
+            <div class="card" style="min-height: 22rem;">
+              <div class="card-header pb-0">
+                <div class="row">
+                  <div class="col-lg-6 col-7">
+                    <h6>List of calculations</h6>
+                  </div>
+                  <div class="col-lg-6 col-7 text-end">
+                    <a class="btn btn-link text-dark px-1 mb-0" href=""><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true">&nbsp; Add new calculation</i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body px-0 pb-2 h-100" >
+                <div class="table-responsive">
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Creation date</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created by</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Forward kinematic</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Inverse kinematic</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-sm">{{robot.name}}</h6>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex flex-column px-1">
+                            <h6 class="mb-0 text-sm">Description</h6>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex flex-column px-1">
+                            <h6 class="mb-0 text-sm">{{robot.created}}</h6>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="avatar-group mt-2 px-4">
+                              <a href="{% url 'profile-info' robot.owner.id%}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{robot.owner}}">
+                                <img src="{{robot.owner.avatar.url}}" alt="{{robot.owner}}">
+                              </a>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex flex-column px-5">
+                            <h6 class="fa fa-check-square-o" aria-hidden="true"></h6>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex flex-column px-5">
+                            <h6 class="fa fa-minus-square-o" aria-hidden="true"></h6>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
+        </div>
     </div>
 
 {% endblock content %}
