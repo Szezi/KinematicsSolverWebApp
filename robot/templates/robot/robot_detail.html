@@ -115,14 +115,11 @@
         </div>
         <div class="row justify-content-md-center py-4">
           <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
-            <div class="card" style="min-height: 22rem;">
+            <div class="card" style="min-height: 16rem;">
               <div class="card-header pb-0">
                 <div class="row">
                   <div class="col-lg-6 col-7">
-                    <h6>List of calculations</h6>
-                  </div>
-                  <div class="col-lg-6 col-7 text-end">
-                    <a class="btn btn-link text-dark px-1 mb-0" href=""><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true">&nbsp; Add new calculation</i></a>
+                    <h6>Calculations</h6>
                   </div>
                 </div>
               </div>
@@ -131,12 +128,11 @@
                   <table class="table align-items-center mb-0">
                     <thead>
                       <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Creation date</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created by</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Forward kinematic</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Inverse kinematic</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Notes</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Modify date</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Modified by</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">View</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -144,36 +140,110 @@
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm">{{robot.name}}</h6>
+                              <h6 class="mb-0 text-sm">Forward kinematic</h6>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div class="d-flex flex-column px-1">
-                            <h6 class="mb-0 text-sm">Description</h6>
+                          <div class="d-flex flex-column px-2">
+                            {% if fk_kinematics %}
+                                {% for fk in fk_kinematics %}
+                                    <h6 class="mb-0 text-sm">{{fk.notes}}</h6>
+                                {% endfor %}
+                              {% else %}
+                               <h6 class="mb-0 text-sm">None</h6>
+                            {% endif %}
                           </div>
                         </td>
                         <td>
                           <div class="d-flex flex-column px-1">
-                            <h6 class="mb-0 text-sm">{{robot.created}}</h6>
+                              {% if fk_kinematics %}
+                                {% for fk in fk_kinematics %}
+                                    <h6 class="mb-0 text-sm">{{fk.modified}}</h6>
+                                {% endfor %}
+                              {% else %}
+                               <h6 class="mb-0 text-sm">None</h6>
+                              {% endif %}
                           </div>
                         </td>
                         <td>
                           <div class="avatar-group mt-2 px-4">
-                              <a href="{% url 'profile-info' robot.owner.id%}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{robot.owner}}">
-                                <img src="{{robot.owner.avatar.url}}" alt="{{robot.owner}}">
-                              </a>
+                              {% if fk_kinematics %}
+                                {% for fk in fk_kinematics %}
+                                    <a href="{% url 'profile-info' fk.modified_by.id%}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{fk.modified_by}}">
+                                      <img src="{{fk.modified_by.avatar.url}}" alt="{{fk.modified_by}}">
+                                    </a>
+                                {% endfor %}
+                              {% else %}
+                               <h6 class="mb-0 text-sm">None</h6>
+                              {% endif %}
+
+                          </div>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                          {% if fk_kinematics %}
+                            {% for fk in fk_kinematics %}
+                                <a class="btn btn-link mb-0" href="{% url 'fk-update' fk.id %}">View</a>
+                            {% endfor %}
+                          {% else %}
+                            <a class="btn btn-link mb-0" href="{% url 'fk-create' %}">Create</a>
+                          {% endif %}
+
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="d-flex px-2 py-1">
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-sm">Inverse kinematic</h6>
+                            </div>
                           </div>
                         </td>
                         <td>
-                          <div class="d-flex flex-column px-5">
-                            <h6 class="fa fa-check-square-o" aria-hidden="true"></h6>
+                          <div class="d-flex flex-column px-2">
+                            {% if ik_kinematics %}
+                                {% for ik in ik_kinematics %}
+                                    <h6 class="mb-0 text-sm">{{ik.notes}}</h6>
+                                {% endfor %}
+                              {% else %}
+                               <h6 class="mb-0 text-sm">None</h6>
+                            {% endif %}
                           </div>
                         </td>
                         <td>
-                          <div class="d-flex flex-column px-5">
-                            <h6 class="fa fa-minus-square-o" aria-hidden="true"></h6>
+                          <div class="d-flex flex-column px-1">
+                              {% if ik_kinematics %}
+                                {% for ik in ik_kinematics %}
+                                    <h6 class="mb-0 text-sm">{{ik.modified}}</h6>
+                                {% endfor %}
+                              {% else %}
+                               <h6 class="mb-0 text-sm">None</h6>
+                              {% endif %}
                           </div>
+                        </td>
+                        <td>
+                          <div class="avatar-group mt-2 px-4">
+                              {% if ik_kinematics %}
+                                {% for ik in ik_kinematics %}
+                                    <a href="{% url 'profile-info' ik.modified_by.id%}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ik.modified_by}}">
+                                      <img src="{{ik.modified_by.avatar.url}}" alt="{{ik.modified_by}}">
+                                    </a>
+                                {% endfor %}
+                              {% else %}
+                               <h6 class="mb-0 text-sm">None</h6>
+                              {% endif %}
+                          </div>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                          {% if ik_kinematics %}
+                            {% for ik in ik_kinematics %}
+                                <a class="btn btn-link mb-0" href="{% url 'ik-update' ik.id %}">View</a>
+                            {% endfor %}
+                          {% else %}
+                            <a class="btn btn-link mb-0" href="{% url 'ik-create' %}">Create</a>
+                          {% endif %}
                         </td>
                       </tr>
                     </tbody>
