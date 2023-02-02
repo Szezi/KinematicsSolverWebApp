@@ -76,6 +76,9 @@ class ForwardKinematics(models.Model):
     def get_absolute_url(self):
         return reverse('fk-update', kwargs={'pk': self.pk})
 
+    def __str__(self):
+        return self.Robot
+
 
 class InverseKinematics(models.Model):
     Robot = models.OneToOneField(Robot, on_delete=models.CASCADE, null=False)
@@ -100,3 +103,6 @@ class InverseKinematics(models.Model):
 
     def get_absolute_url(self):
         return reverse('ik-update', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.Robot
