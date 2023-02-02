@@ -1,14 +1,21 @@
 from django.db import models
+from django.db.models.functions import datetime
+from django.urls import reverse
+from django.utils import timezone
+
 from accounts.models import User
 
 
 class Project(models.Model):
     admin = models.ManyToManyField(User, related_name='admin', null=False)
-    name = models.CharField(default='New Project', max_length=200)
+    name = models.CharField(default='New Project', max_length=50)
     description = models.CharField(max_length=250, null=True, blank=True, default='Project description')
     members = models.ManyToManyField(
         User, related_name='members', blank=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse('project-detail', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['created']
@@ -19,8 +26,8 @@ class Project(models.Model):
 
 class Robot(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=False)
-    name = models.CharField(default='New task', max_length=200)
-    description = models.CharField(max_length=100, null=True, blank=True, default='Task description')
+    name = models.CharField(default='New robot', max_length=50)
+    description = models.CharField(max_length=100, null=True, blank=True, default='Robot description')
     notes = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
@@ -40,6 +47,9 @@ class Robot(models.Model):
     link4_max = models.IntegerField(null=True, blank=True, default=85)
     link5_max = models.IntegerField(null=True, blank=True, default=0)
 
+    def get_absolute_url(self):
+        return reverse('robot-detail', kwargs={'pk': self.pk})
+
     def __str__(self):
         return self.name
 
@@ -47,4 +57,46 @@ class Robot(models.Model):
         ordering = ['created']
 
 
+class ForwardKinematics(models.Model):
+    Robot = models.OneToOneField(Robot, on_delete=models.CASCADE, null=False)
+    name = models.CharField(default='FK Calculation', max_length=50)
+    notes = models.TextField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now_add=True)
+    modified_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    status = models.BooleanField(null=True, blank=True, default=False)
+    theta1 = models.IntegerField(null=True, blank=True, default=0)
+    theta2 = models.IntegerField(null=True, blank=True, default=0)
+    theta3 = models.IntegerField(null=True, blank=True, default=0)
+    theta4 = models.IntegerField(null=True, blank=True, default=0)
+    x = models.IntegerField(null=True, blank=True, default=0)
+    y = models.IntegerField(null=True, blank=True, default=0)
+    z = models.IntegerField(null=True, blank=True, default=0)
 
+    def get_absolute_url(self):
+        return reverse('fk-update', kwargs={'pk': self.pk})
+
+
+class InverseKinematics(models.Model):
+    Robot = models.OneToOneField(Robot, on_delete=models.CASCADE, null=False)
+    name = models.CharField(default='IK Calculation', max_length=50)
+    notes = models.TextField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now_add=True)
+    modified_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    status = models.BooleanField(null=True, blank=True, default=False)
+    x = models.IntegerField(null=True, blank=True, default=0)
+    y = models.IntegerField(null=True, blank=True, default=0)
+    z = models.IntegerField(null=True, blank=True, default=0)
+    alpha = models.IntegerField(null=True, blank=True, default=0)
+    theta1 = models.IntegerField(null=True, blank=True, default=0)
+    theta2 = models.IntegerField(null=True, blank=True, default=0)
+    theta3 = models.IntegerField(null=True, blank=True, default=0)
+    theta4 = models.IntegerField(null=True, blank=True, default=0)
+    theta11 = models.IntegerField(null=True, blank=True, default=0)
+    theta22 = models.IntegerField(null=True, blank=True, default=0)
+    theta33 = models.IntegerField(null=True, blank=True, default=0)
+    theta44 = models.IntegerField(null=True, blank=True, default=0)
+
+    def get_absolute_url(self):
+        return reverse('ik-update', kwargs={'pk': self.pk})
