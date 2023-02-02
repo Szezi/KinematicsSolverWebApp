@@ -60,10 +60,9 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Robot name</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Creation date</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Created by</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Forward kinematic</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Inverse kinematic</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">View</th>
                     </tr>
                   </thead>
@@ -83,6 +82,11 @@
                             </td>
                             <td>
                               <div class="d-flex flex-column px-2">
+                                <h6 class="mb-0 text-sm">{{robot.description}}</h6>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="d-flex flex-column px-2">
                                 <h6 class="mb-0 text-sm">{{robot.created}}</h6>
                               </div>
                             </td>
@@ -91,16 +95,6 @@
                                   <a href="{% url 'profile-info' robot.owner.id%}" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{robot.owner}}">
                                     <img src="{{robot.owner.avatar.url}}" alt="{{robot.owner}}">
                                   </a>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="d-flex flex-column px-5">
-                                <h6 class="fa fa-check-square-o" aria-hidden="true"></h6>
-                              </div>
-                            </td>
-                            <td>
-                              <div class="d-flex flex-column px-5">
-                                <h6 class="fa fa-minus-square-o" aria-hidden="true"></h6>
                               </div>
                             </td>
                             <td class="align-middle text-center text-sm">
