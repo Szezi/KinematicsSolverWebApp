@@ -4,3 +4,4 @@ django-filter==22.1
 Pillow==9.4.0
 sqlparse==0.4.3
 psycopg2==2.8.4
+numpy~=1.21.6
