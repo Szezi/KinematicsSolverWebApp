@@ -1,12 +1,14 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView, ListView
-from pyexpat.errors import messages
+from django.http import request
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
 
 from .models import Project, Robot, ForwardKinematics, InverseKinematics
+
+from robot.robotic_arm import RoboticArm
 
 
 class DashboardView(ListView):
@@ -19,7 +21,6 @@ class DashboardView(ListView):
         context['project_member'] = Project.objects.filter(members=self.request.user).count()
         context['project_admin'] = Project.objects.filter(admin=self.request.user).count()
         context['robot_last'] = Robot.objects.all().filter(owner=self.request.user).order_by('-created')[0:1]
-
 
         return context
 
@@ -193,6 +194,10 @@ class IkCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+
+        if form.is_valid():
+            form.instance.modified = datetime.datetime.now()
+            form.save()
         return super(IkCreate, self).form_valid(form)
 
     def get_initial(self):
@@ -207,11 +212,85 @@ class IkCreate(LoginRequiredMixin, CreateView):
 class IkUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'robot/ik_update.html'
     model = InverseKinematics
-    fields = ['notes', 'modified_by', 'x', 'y', 'z', 'alpha']
+    fields = ['notes', 'modified', 'modified_by', 'x', 'y', 'z', 'alpha', 'theta1', 'theta2', 'theta3', 'theta4']
     context_object_name = 'ik'
 
     def get_initial(self):
         return {'modified_by': self.request.user}
+
+    def get_context_data(self, **kwargs):
+        context = super(IkUpdate, self).get_context_data(**kwargs)
+        context['link1'] = self.get_object().Robot.link1
+        context['link2'] = self.get_object().Robot.link2
+        context['link3'] = self.get_object().Robot.link3
+        context['link4'] = self.get_object().Robot.link4
+        context['link5'] = self.get_object().Robot.link5
+        context['link1_min'] = self.get_object().Robot.link1_min
+        context['link2_min'] = self.get_object().Robot.link2_min
+        context['link3_min'] = self.get_object().Robot.link3_min
+        context['link4_min'] = self.get_object().Robot.link4_min
+        context['link5_min'] = self.get_object().Robot.link5_min
+        context['link1_max'] = self.get_object().Robot.link1_max
+        context['link2_max'] = self.get_object().Robot.link2_max
+        context['link3_max'] = self.get_object().Robot.link3_max
+        context['link4_max'] = self.get_object().Robot.link4_max
+        context['link5_max'] = self.get_object().Robot.link5_max
+
+        return context
+
+    def calculate_ik(self, x, y, z, alpha):
+        context = self.get_context_data()
+        links = {"link1": [context['link1'], context['link1_min'], context['link1_max']],
+                 "link2": [context['link2'], context['link2_min'], context['link2_max']],
+                 "link3": [context['link3'], context['link3_min'], context['link3_max']],
+                 "link4": [context['link4'], context['link4_min'], context['link4_max']],
+                 "link5": [context['link5'], context['link5_min'], context['link5_max']]}
+        Robot_IK = RoboticArm(links)
+        Robot_IK.ik_solver(x, y, z, alpha)
+        config_1 = Robot_IK.ik_get_config1()
+        config_2 = Robot_IK.ik_get_config2()
+        return config_1, config_2
+
+    def form_valid(self, form):
+        x = form.instance.x
+        y = form.instance.y
+        z = form.instance.z
+        alpha = form.instance.alpha
+
+        try:
+            calculation = self.calculate_ik(x, y, z , alpha)
+            theta1 = calculation[0][0][0]
+            theta2 = calculation[0][0][1]
+            theta3 = calculation[0][0][2]
+            theta4 = calculation[0][0][3]
+            theta11 = calculation[1][0][0]
+            theta22 = calculation[1][0][1]
+            theta33 = calculation[1][0][2]
+            theta44 = calculation[1][0][3]
+        except:
+            theta1 = 0
+            theta2 = 0
+            theta3 = 0
+            theta4 = 0
+            theta11 = 0
+            theta22 = 0
+            theta33 = 0
+            theta44 = 0
+            print("form invalid")
+
+        if form.is_valid():
+            form.instance.theta1 = theta1
+            form.instance.theta2 = theta2
+            form.instance.theta3 = theta3
+            form.instance.theta4 = theta4
+            form.instance.theta11 = theta11
+            form.instance.theta22 = theta22
+            form.instance.theta33 = theta33
+            form.instance.theta44 = theta44
+            form.instance.modified = datetime.datetime.now()
+            form.save()
+
+        return super(IkUpdate, self).form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
