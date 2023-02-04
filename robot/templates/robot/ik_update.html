@@ -113,7 +113,7 @@
                               <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">A:</strong>   {{form.alpha}}</li>
                               <li class="list-group-item border-0 ps-0 text-sm">{{form.modified_by.as_hidden}}</li>
                             </ul>
-                            <input class="button" type="submit" value="Submit">
+                            <input class="button" type="submit" value="Save & Calculate">
                     </div>
                 </div>
               </div>
@@ -125,6 +125,7 @@
                         <div class="card-body pt-4 p-3">
                           <li class="list-group">
                                 <span class="mb-2 text-sm text-center"><strong class="text-dark">Results</strong></span>
+                                <span class="mb-2 text-sm text-center"><strong class="text-dark"></strong></span>
                                 <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta1:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta1}}</span></span>
                                 <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta2:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta2}}</span></span>
                                 <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta3:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta3}}</span></span>
@@ -141,10 +142,11 @@
                         <div class="card-body pt-4 p-3">
                           <li class="list-group">
                                 <span class="mb-2 text-sm text-center"><strong class="text-dark">Results</strong></span>
-                                <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta1:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta1}}</span></span>
-                                <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta2:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta2}}</span></span>
-                                <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta3:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta3}}</span></span>
-                                <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta4:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta4}}</span></span>
+                                <span class="mb-2 text-sm text-center"><strong class="text-dark"></strong></span>
+                                <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta1:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta11}}</span></span>
+                                <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta2:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta22}}</span></span>
+                                <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta3:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta33}}</span></span>
+                                <span class="mb-2 text-sm text-center"><strong class="text-dark">Theta4:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{ik.theta44}}</span></span>
                           </li>
                         </div>
                     </div>
