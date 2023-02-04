@@ -62,7 +62,7 @@ class ForwardKinematics(models.Model):
     name = models.CharField(default='FK Calculation', max_length=50)
     notes = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(null=True, blank=True, default='2023-12-12 12:12')
     modified_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     status = models.BooleanField(null=True, blank=True, default=False)
     theta1 = models.IntegerField(null=True, blank=True, default=0)
@@ -77,7 +77,7 @@ class ForwardKinematics(models.Model):
         return reverse('fk-update', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.Robot
+        return self.Robot.name
 
 
 class InverseKinematics(models.Model):
@@ -85,7 +85,7 @@ class InverseKinematics(models.Model):
     name = models.CharField(default='IK Calculation', max_length=50)
     notes = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(null=True, blank=True, default='2023-12-12 12:12')
     modified_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     status = models.BooleanField(null=True, blank=True, default=False)
     x = models.IntegerField(null=True, blank=True, default=0)
@@ -105,4 +105,4 @@ class InverseKinematics(models.Model):
         return reverse('ik-update', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return self.Robot
+        return self.Robot.name
