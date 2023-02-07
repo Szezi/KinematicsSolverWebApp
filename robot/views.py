@@ -161,6 +161,10 @@ class FkCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+
+        if form.is_valid():
+            form.instance.modified = datetime.datetime.now()
+            form.save()
         return super(FkCreate, self).form_valid(form)
 
     def get_initial(self):
@@ -180,6 +184,69 @@ class FkUpdate(LoginRequiredMixin, UpdateView):
 
     def get_initial(self):
         return {'modified_by': self.request.user}
+
+    def get_context_data(self, **kwargs):
+        context = super(FkUpdate, self).get_context_data(**kwargs)
+        context['link1'] = self.get_object().Robot.link1
+        context['link2'] = self.get_object().Robot.link2
+        context['link3'] = self.get_object().Robot.link3
+        context['link4'] = self.get_object().Robot.link4
+        context['link5'] = self.get_object().Robot.link5
+        context['link1_min'] = self.get_object().Robot.link1_min
+        context['link2_min'] = self.get_object().Robot.link2_min
+        context['link3_min'] = self.get_object().Robot.link3_min
+        context['link4_min'] = self.get_object().Robot.link4_min
+        context['link5_min'] = self.get_object().Robot.link5_min
+        context['link1_max'] = self.get_object().Robot.link1_max
+        context['link2_max'] = self.get_object().Robot.link2_max
+        context['link3_max'] = self.get_object().Robot.link3_max
+        context['link4_max'] = self.get_object().Robot.link4_max
+        context['link5_max'] = self.get_object().Robot.link5_max
+
+        return context
+
+    def calculate_fk(self, theta1, theta2, theta3, theta4):
+        context = self.get_context_data()
+        links = {"link1": [context['link1'], context['link1_min'], context['link1_max']],
+                 "link2": [context['link2'], context['link2_min'], context['link2_max']],
+                 "link3": [context['link3'], context['link3_min'], context['link3_max']],
+                 "link4": [context['link4'], context['link4_min'], context['link4_max']],
+                 "link5": [context['link5'], context['link5_min'], context['link5_max']]}
+        Robot_FK = RoboticArm(links)
+        result_xyz = Robot_FK.fk_solve_auto(theta1, theta2, theta3, theta4)
+        dh_table = Robot_FK.fk_dh(theta1, theta2, theta3, theta4)
+        return result_xyz, dh_table
+
+    def form_valid(self, form):
+        theta1 = form.instance.theta1
+        theta2 = form.instance.theta2
+        theta3 = form.instance.theta3
+        theta4 = form.instance.theta4
+
+        try:
+            calculation = self.calculate_fk(theta1, theta2, theta3, theta4)
+            x = calculation[0][1][0][0]
+            y = calculation[0][1][1][1]
+            z = calculation[0][1][2][2]
+            alpha = calculation[0][0]
+
+        except:
+            x = 0
+            y = 0
+            z = 0
+            alpha = 0
+            print("form invalid")
+
+        if form.is_valid():
+            form.instance.x = x
+            form.instance.y = y
+            form.instance.z = z
+            form.instance.alpha = alpha
+
+            form.instance.modified = datetime.datetime.now()
+            form.save()
+
+        return super(FkUpdate, self).form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -212,7 +279,7 @@ class IkCreate(LoginRequiredMixin, CreateView):
 class IkUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'robot/ik_update.html'
     model = InverseKinematics
-    fields = ['notes', 'modified', 'modified_by', 'x', 'y', 'z', 'alpha', 'theta1', 'theta2', 'theta3', 'theta4']
+    fields = ['notes', 'modified', 'modified_by', 'x', 'y', 'z', 'alpha']
     context_object_name = 'ik'
 
     def get_initial(self):
