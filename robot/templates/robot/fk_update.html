@@ -73,8 +73,28 @@
                     <div class="card-header pb-0 px-3">
                       <h6 class="mb-0">Parameters</h6>
                     </div>
-                    <div class="card-body pt-4 p-3" style="max-height: 20rem; margin-left: 100px; margin-right: 100px">
-                      <img src="{% static 'img/scheme.png' %}" class="card-img" width="300" height="280">
+                    <div class="card-body pt-4 p-3 text-center" style="max-height: 20rem; margin-left: 100px; margin-right: 100px">
+                        <img src="{% static 'img/scheme.png' %}" class="card-img" width="300" height="250">
+                            <!-- Button trigger modal -->
+                          <a class="btn btn-link text-dark ps-0 mb-0 ms-auto" data-bs-toggle="modal" data-bs-target="#exampleModal">View orientation</a>
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: max-content">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Orientation</h5>
+                                  <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <img src="{% static 'img/orientation.png' %}" class="display-2" alt="xd">
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                     </div>
                   </div>
                 </div>
@@ -102,74 +122,91 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
+                            <tr>
                             <td class="align-middle text-center text-sm">
-                              <a class="mb-0 text-sm">1</a>
+                              <a class="mb-0 text-sm">1.</a>
                             </td>
                             <td class="align-middle text-center text-sm">
-                              <a class="mb-0 text-sm">2</a>
+                              <a class="mb-0 text-sm">{{fk.theta1}}</a>
                             </td>
                             <td class="align-middle text-center text-sm">
-                              <a class="mb-0 text-sm">3</a>
+                              <a class="mb-0 text-sm">{{link1}}</a>
                             </td>
                             <td class="align-middle text-center text-sm">
-                              <a class="mb-0 text-sm">4</a>
+                              <a class="mb-0 text-sm">0</a>
                             </td>
                             <td class="align-middle text-center text-sm">
-                              <a class="mb-0 text-sm">5</a>
+                              <a class="mb-0 text-sm">90</a>
                             </td>
                           </tr>
-                          <tr>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">1</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">2</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">3</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">4</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">5</a>
-                              </td>
-                            </tr>
-                          <tr>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">1</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">2</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">3</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">4</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">5</a>
-                              </td>
-                            </tr>
-                          <tr>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">1</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">2</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">3</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">4</a>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                <a class="mb-0 text-sm">5</a>
-                              </td>
-                            </tr>
+                            <tr>
+                            <td class="align-middle text-center text-sm">
+                              <a class="mb-0 text-sm">2.</a>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <a class="mb-0 text-sm">{{fk.theta2}}</a>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <a class="mb-0 text-sm">{{link2}}</a>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <a class="mb-0 text-sm">0</a>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                              <a class="mb-0 text-sm">0</a>
+                            </td>
+                          </tr>
+                            <tr>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">3.</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">{{fk.theta3}}</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">{{link3}}</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">0</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">0</a>
+                                </td>
+                              </tr>
+                            <tr>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">4.</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">{{fk.theta4}}</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">{{link4}}</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">0</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">0</a>
+                                </td>
+                              </tr>
+                            <tr>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">5.</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">-90</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">0</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">{{link5}}</a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  <a class="mb-0 text-sm">0</a>
+                                </td>
+                              </tr>
                         </tbody>
                       </table>
                     </div>
@@ -201,6 +238,7 @@
                                 <span class="mb-2 text-sm text-center"><strong class="text-dark">X:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{fk.x}}</span></span>
                                 <span class="mb-2 text-sm text-center"><strong class="text-dark">Y:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{fk.y}}</span></span>
                                 <span class="mb-2 text-sm text-center"><strong class="text-dark">Z:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{fk.z}}</span></span>
+                                <span class="mb-2 text-sm text-center"><strong class="text-dark">A:</strong><span class="text-dark font-weight-bold ms-sm-2"> {{fk.alpha}}</span></span>
                            </li>
                         </div>
                       </div>
