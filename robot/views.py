@@ -1,7 +1,7 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import request
+from django.http import request, Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
@@ -72,10 +72,17 @@ class ProjectUpdate(LoginRequiredMixin, UpdateView):
     fields = ['name', 'description', 'admin', 'members']
     context_object_name = 'project'
 
+    def get_queryset(self):
+        base_qs = super(ProjectUpdate, self).get_queryset()
+        return base_qs.filter(admin=self.request.user)
+
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('home')
-        return super(ProjectUpdate, self).dispatch(request, *args, **kwargs)
+        try:
+            if not request.user.is_authenticated:
+                return redirect('home')
+            return super(ProjectUpdate, self).dispatch(request, *args, **kwargs)
+        except Http404:
+            return redirect('dashboard')
 
 
 class ProjectDelete(LoginRequiredMixin, DeleteView):
@@ -83,10 +90,17 @@ class ProjectDelete(LoginRequiredMixin, DeleteView):
     context_object_name = 'project'
     success_url = reverse_lazy('dashboard')
 
+    def get_queryset(self):
+        base_qs = super(ProjectDelete, self).get_queryset()
+        return base_qs.filter(admin=self.request.user)
+
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('home')
-        return super(ProjectDelete, self).dispatch(request, *args, **kwargs)
+        try:
+            if not request.user.is_authenticated:
+                return redirect('home')
+            return super(ProjectDelete, self).dispatch(request, *args, **kwargs)
+        except Http404:
+            return redirect('dashboard')
 
 
 class RobotDetail(LoginRequiredMixin, DetailView):
@@ -110,7 +124,7 @@ class RobotDetail(LoginRequiredMixin, DetailView):
 class RobotCreate(LoginRequiredMixin, CreateView):
     template_name = 'robot/robot_form.html'
     model = Robot
-    fields = '__all__'
+    fields = ['project', 'name', 'description', 'notes', 'link1', 'link2', 'link3', 'link4', 'link5', 'link1_min', 'link2_min', 'link3_min', 'link4_min', 'link5_min', 'link1_max', 'link2_max', 'link3_max', 'link4_max', 'link5_max']
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)  # Get the form as usual
@@ -119,11 +133,8 @@ class RobotCreate(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.owner = self.request.user
         return super(RobotCreate, self).form_valid(form)
-
-    def get_initial(self):
-        return {'owner': self.request.user}
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -134,13 +145,24 @@ class RobotCreate(LoginRequiredMixin, CreateView):
 class RobotUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'robot/robot_update.html'
     model = Robot
-    fields = '__all__'
+    fields = ['name', 'description', 'notes', 'link1', 'link2', 'link3', 'link4', 'link5', 'link1_min', 'link2_min', 'link3_min', 'link4_min', 'link5_min', 'link1_max', 'link2_max', 'link3_max', 'link4_max', 'link5_max']
     context_object_name = 'robot'
 
+    def get_queryset(self):
+        base_qs = super(RobotUpdate, self).get_queryset()
+        return base_qs.filter(project__members=self.request.user)
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(RobotUpdate, self).form_valid(form)
+
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('home')
-        return super(RobotUpdate, self).dispatch(request, *args, **kwargs)
+        try:
+            if not request.user.is_authenticated:
+                return redirect('home')
+            return super(RobotUpdate, self).dispatch(request, *args, **kwargs)
+        except Http404:
+            return redirect('dashboard')
 
 
 class RobotDelete(LoginRequiredMixin, DeleteView):
@@ -148,10 +170,17 @@ class RobotDelete(LoginRequiredMixin, DeleteView):
     context_object_name = 'robot'
     success_url = reverse_lazy('dashboard')
 
+    def get_queryset(self):
+        base_qs = super(RobotDelete, self).get_queryset()
+        return base_qs.filter(project__members=self.request.user)
+
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('home')
-        return super(RobotDelete, self).dispatch(request, *args, **kwargs)
+        try:
+            if not request.user.is_authenticated:
+                return redirect('home')
+            return super(RobotDelete, self).dispatch(request, *args, **kwargs)
+        except Http404:
+            return redirect('dashboard')
 
 
 class FkCreate(LoginRequiredMixin, CreateView):
