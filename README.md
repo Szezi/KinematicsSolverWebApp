@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Szezi/KinematicsSolverWebApp">
-    <img src="data\images\dashboard.png" alt="Dashboard">
+    <img src="static\screen\dashboard.png" alt="Dashboard">
   </a>
 <h3 align="center">KinematicsSolverWebApp</h3>
   <p align="center">
@@ -87,7 +87,7 @@ Frontend design is based on :https://www.creative-tim.com/product/soft-ui-dashbo
 ### Home page
 
 <div align="center">
-<img src="data\images\home.png" alt="home">
+<img src="static\screen\home.png" alt="home">
 </div>
 
 Application welcome user with home page. It allows user to log in or create new account.
@@ -97,15 +97,15 @@ If user is already logged in it automatically redirect user to dashboard page. M
 ### Profile
 
 <div align="center">
-<img src="data\images\profile.png" alt="home">
+<img src="static\screen\user.png" alt="user">
 </div>
 
-User during registration creates new profile with avatar, description and basic information about user.
+User during registration add avatar, description and basic information about user. AbstractUser was used.
 
 ### Dashboard
 
 <div align="center">
-<img src="data\images\dashboard.png" alt="home">
+<img src="static\screen\dashboard.png" alt="dashboard">
 </div>
 
 Dashboard page allows user to keep track with basic information about users projects. 
@@ -113,13 +113,51 @@ On top there are stats with numer of projects, numer of calculated Forward and I
 On dashboard page user also can create new robotic project and add new robot, keep track on projects is administrator of and see last created robot parameters.
 
 ### Robotic Project
+<div align="center">
+<img src="static\screen\project_create.png" alt="project">
+</div>
+
+User can create new project. During creation user can select admins and members of the project.
+
+<div align="center">
+<img src="static\screen\project.png" alt="project">
+</div>
+
+Project page contains buttons to edit and delete project on the project header bar.
+Only administrator can edit or delete project. Another members ae redirected to dashboard page.
+
+User can also add robotic arms to the project and list them in the table.
 
 ### Robotic Arm
+<div align="center">
+<img src="static\screen\robot_create.png" alt="robot">
+</div>
+
+User can create new robotic arm for calculations. During creation user fill information about robot, add notes and select project.
+
+<div align="center">
+<img src="static\screen\robot.png" alt="robot">
+</div>
+
+Robot page contains buttons to edit and delete robot on the robot header bar.
+Only member of the project can edit or delete robot. Another users are redirected to dashboard page.
+
+On this page user can create/edit forward and inverse kinematics with parameters filled during robot creation.
 
 ### Forward Kinematics
+<div align="center">
+<img src="static\screen\fk_info.png" alt="robot">
+</div>
+
+Page use UpdateView and display information about calculation. User can calculate forward kinematics giving thetas values.
 
 ### Inverse Kinematics
 
+<div align="center">
+<img src="static\screen\ik_info.png" alt="robot">
+</div>
+
+Page use UpdateView and display information about calculation. User can calculate inverse kinematics giving xyz values.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
