@@ -19,6 +19,8 @@ class DashboardView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['project_member'] = Project.objects.filter(members=self.request.user).count()
+        context['fk_calc'] = ForwardKinematics.objects.filter(modified_by=self.request.user).count()
+        context['ik_calc'] = InverseKinematics.objects.filter(modified_by=self.request.user).count()
         context['project_admin'] = Project.objects.filter(admin=self.request.user).count()
         context['robot_last'] = Robot.objects.all().filter(owner=self.request.user).order_by('-created')[0:1]
 
@@ -132,10 +134,6 @@ class RobotCreate(LoginRequiredMixin, CreateView):
         form.fields['project'].queryset = Project.objects.filter(members=user)
         return form
 
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super(RobotCreate, self).form_valid(form)
-
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect('home')
@@ -186,18 +184,21 @@ class RobotDelete(LoginRequiredMixin, DeleteView):
 class FkCreate(LoginRequiredMixin, CreateView):
     template_name = 'robot/fk_form.html'
     model = ForwardKinematics
-    fields = ['Robot', 'name', 'notes', 'modified_by', 'theta1', 'theta2', 'theta3', 'theta4']
+    fields = ['Robot', 'name', 'notes', 'theta1', 'theta2', 'theta3', 'theta4']
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)  # Get the form as usual
+        user = self.request.user
+        form.fields['Robot'].queryset = Project.objects.filter(members=user)
+        return form
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.modified_by = self.request.user
 
         if form.is_valid():
             form.instance.modified = datetime.datetime.now()
             form.save()
         return super(FkCreate, self).form_valid(form)
-
-    def get_initial(self):
-        return {'modified_by': self.request.user}
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -208,11 +209,8 @@ class FkCreate(LoginRequiredMixin, CreateView):
 class FkUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'robot/fk_update.html'
     model = ForwardKinematics
-    fields = ['notes', 'modified_by', 'theta1', 'theta2', 'theta3', 'theta4']
+    fields = ['notes', 'theta1', 'theta2', 'theta3', 'theta4']
     context_object_name = 'fk'
-
-    def get_initial(self):
-        return {'modified_by': self.request.user}
 
     def get_context_data(self, **kwargs):
         context = super(FkUpdate, self).get_context_data(**kwargs)
@@ -247,6 +245,8 @@ class FkUpdate(LoginRequiredMixin, UpdateView):
         return result_xyz, dh_table
 
     def form_valid(self, form):
+        form.instance.modified_by = self.request.user
+
         theta1 = form.instance.theta1
         theta2 = form.instance.theta2
         theta3 = form.instance.theta3
@@ -286,18 +286,21 @@ class FkUpdate(LoginRequiredMixin, UpdateView):
 class IkCreate(LoginRequiredMixin, CreateView):
     template_name = 'robot/ik_form.html'
     model = InverseKinematics
-    fields = ['Robot', 'name', 'notes', 'modified_by', 'x', 'y', 'z', 'alpha']
+    fields = ['Robot', 'name', 'notes', 'x', 'y', 'z', 'alpha']
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)  # Get the form as usual
+        user = self.request.user
+        form.fields['Robot'].queryset = Project.objects.filter(members=user)
+        return form
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.modified_by = self.request.user
 
         if form.is_valid():
             form.instance.modified = datetime.datetime.now()
             form.save()
         return super(IkCreate, self).form_valid(form)
-
-    def get_initial(self):
-        return {'modified_by': self.request.user}
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -308,11 +311,8 @@ class IkCreate(LoginRequiredMixin, CreateView):
 class IkUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'robot/ik_update.html'
     model = InverseKinematics
-    fields = ['notes', 'modified', 'modified_by', 'x', 'y', 'z', 'alpha']
+    fields = ['notes', 'x', 'y', 'z', 'alpha']
     context_object_name = 'ik'
-
-    def get_initial(self):
-        return {'modified_by': self.request.user}
 
     def get_context_data(self, **kwargs):
         context = super(IkUpdate, self).get_context_data(**kwargs)
@@ -348,6 +348,8 @@ class IkUpdate(LoginRequiredMixin, UpdateView):
         return config_1, config_2
 
     def form_valid(self, form):
+        form.instance.modified_by = self.request.user
+
         x = form.instance.x
         y = form.instance.y
         z = form.instance.z
