@@ -25,7 +25,7 @@ class Project(models.Model):
 
 
 class Robot(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=False)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='robots', null=False)
     name = models.CharField(default='New robot', max_length=50)
     description = models.CharField(max_length=100, null=True, blank=True, default='Robot description')
     notes = models.TextField(null=True, blank=True)
@@ -58,11 +58,11 @@ class Robot(models.Model):
 
 
 class ForwardKinematics(models.Model):
-    Robot = models.OneToOneField(Robot, on_delete=models.CASCADE, null=False)
+    Robot = models.OneToOneField(Robot, on_delete=models.CASCADE, related_name='fk_calc', null=False)
     name = models.CharField(default='FK Calculation', max_length=50)
     notes = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(null=True, blank=True, default='2023-12-12 12:12')
+    modified = models.DateTimeField(null=True, blank=True)
     modified_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     status = models.BooleanField(null=True, blank=True, default=False)
     theta1 = models.FloatField(null=True, blank=True, default=0.0)
@@ -82,25 +82,25 @@ class ForwardKinematics(models.Model):
 
 
 class InverseKinematics(models.Model):
-    Robot = models.OneToOneField(Robot, on_delete=models.CASCADE, null=False)
+    Robot = models.OneToOneField(Robot, on_delete=models.CASCADE, related_name='ik_calc', null=False)
     name = models.CharField(default='IK Calculation', max_length=50)
     notes = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(null=True, blank=True, default='2023-12-12 12:12')
+    modified = models.DateTimeField(null=True, blank=True)
     modified_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     status = models.BooleanField(null=True, blank=True, default=False)
     x = models.IntegerField(null=True, blank=True, default=0)
     y = models.IntegerField(null=True, blank=True, default=0)
     z = models.IntegerField(null=True, blank=True, default=0)
     alpha = models.IntegerField(null=True, blank=True, default=0)
-    theta1 = models.IntegerField(null=True, blank=True, default=0)
-    theta2 = models.IntegerField(null=True, blank=True, default=0)
-    theta3 = models.IntegerField(null=True, blank=True, default=0)
-    theta4 = models.IntegerField(null=True, blank=True, default=0)
-    theta11 = models.IntegerField(null=True, blank=True, default=0)
-    theta22 = models.IntegerField(null=True, blank=True, default=0)
-    theta33 = models.IntegerField(null=True, blank=True, default=0)
-    theta44 = models.IntegerField(null=True, blank=True, default=0)
+    theta1 = models.FloatField(null=True, blank=True, default=0.0)
+    theta2 = models.FloatField(null=True, blank=True, default=0.0)
+    theta3 = models.FloatField(null=True, blank=True, default=0.0)
+    theta4 = models.FloatField(null=True, blank=True, default=0.0)
+    theta11 = models.FloatField(null=True, blank=True, default=0.0)
+    theta22 = models.FloatField(null=True, blank=True, default=0.0)
+    theta33 = models.FloatField(null=True, blank=True, default=0.0)
+    theta44 = models.FloatField(null=True, blank=True, default=0.0)
 
     def get_absolute_url(self):
         return reverse('ik-update', kwargs={'pk': self.pk})
