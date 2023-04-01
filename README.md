@@ -79,7 +79,7 @@ To run this project, clone repo, run docker desktop and run server.
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-TasksManager is a web application that allows users to create multi-users kanban boards and tasks. Application allows user to fill information about themselves in profile page and see stats on dashboard. <br />
+KinematicsSolverWebApp is a web application that allows users to create multi-users robotic projects. Application allows user to fill information about themselves in profile page and see stats on dashboard. <br />
 To see different pages of application user need to be logged in. If unauthorised user try to view other pages will be automatically redirect to Home page.
 
 Frontend design is based on :https://www.creative-tim.com/product/soft-ui-dashboard
