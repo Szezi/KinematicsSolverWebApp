@@ -134,6 +134,10 @@ class RobotCreate(LoginRequiredMixin, CreateView):
         form.fields['project'].queryset = Project.objects.filter(members=user)
         return form
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(RobotCreate, self).form_valid(form)
+
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect('home')
@@ -149,10 +153,6 @@ class RobotUpdate(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         base_qs = super(RobotUpdate, self).get_queryset()
         return base_qs.filter(project__members=self.request.user)
-
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super(RobotUpdate, self).form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
         try:
@@ -189,7 +189,7 @@ class FkCreate(LoginRequiredMixin, CreateView):
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)  # Get the form as usual
         user = self.request.user
-        form.fields['Robot'].queryset = Project.objects.filter(members=user)
+        form.fields['Robot'].queryset = Robot.objects.filter(project__members=user)
         return form
 
     def form_valid(self, form):
@@ -291,7 +291,7 @@ class IkCreate(LoginRequiredMixin, CreateView):
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)  # Get the form as usual
         user = self.request.user
-        form.fields['Robot'].queryset = Project.objects.filter(members=user)
+        form.fields['Robot'].queryset = Robot.objects.filter(project__members=user)
         return form
 
     def form_valid(self, form):
