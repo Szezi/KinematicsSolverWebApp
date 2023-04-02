@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
     'django_filters',
 
     'core',
     'accounts',
     'robot',
+    'api',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
