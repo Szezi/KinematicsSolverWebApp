@@ -7,7 +7,7 @@
 <h3 align="center">KinematicsSolverWebApp</h3>
   <p align="center">
 KinematicsSolverWebApp is a web application that allows users to create multi-users robotic projects to calculate Forward and Inverse Kinematics. 
-Application allows user to fill information about themselves in profile page and see stats on dashboard. <br />
+Application allows user to fill information about themselves in profile page and see stats on dashboard. App allows also user to calculate fk&ik kinematics using api by giving parameter in url<br />
     <a href="https://github.com/Szezi/KinematicsSolverWebApp"><strong>Explore the docs »</strong></a>
   </p>
 </div>
@@ -70,6 +70,7 @@ To run this project, clone repo, run docker desktop and run server.
 
 * [Python](https://www.python.org/downloads/release/python-390/)
 * [Django](https://www.djangoproject.com)
+* [Django REST framework](https://www.django-rest-framework.org)
 * [PostgreSQL](https://www.postgresql.org)
 * [Docker](https://www.docker.com)
 
@@ -161,6 +162,27 @@ Page use UpdateView and display information about calculation. User can calculat
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+### API
+
+<div align="center">
+<img src="static\screen\api_overview.png" alt="api">
+</div>
+
+API allows user to receive information at 3 endpoints.
+API does not use any model and serialization. Calculations are performed using parameters given by user in url path.
+
+First (Overview) allows user to get 2 rest url paths to calculate fk & ik kinematics and get the result.
+
+<div align="center">
+<img src="static\screen\api_fk.png" alt="api">
+</div>
+API for calculating forward kinematics allows user to receive calculation results by giving robots parameters and thetas values in url.
+
+<div align="center">
+<img src="static\screen\api_ik.png" alt="api">
+</div>
+API for calculating inverse kinematics allows user to receive calculation results by giving robots parameters and xyz and alpha values in url.
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License
