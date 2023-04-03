@@ -11,6 +11,9 @@ from api.utils import calculate_ik, calculate_fk
 
 @api_view(['GET'])
 def apiOverview(request):
+    """
+        An endpoint for overview of the api.
+    """
     api_urls = {
         'Forward Kin Calc': '/api/fk-calc/<str:link1>_<str:link1_min>_<str:link1_max>/<str:link2>_<str:link2_min>_<str:link2_max>/<str:link3>_<str:link3_min>_<str:link3_max>/<str:link4>_<str:link4_min>_<str:link4_max>/<str:link5>_<str:link5_min>_<str:link5_max>/'
                             '<str:theta1>_<str:theta2>_<str:theta3>_<str:theta4>/',
@@ -25,6 +28,9 @@ def apiOverview(request):
 
 
 class FkCalcAPIView(generics.ListAPIView):
+    """
+        An api endpoint for forward kinematics calculation.
+    """
     permission_classes = (AllowAny,)
     # serializer_class = FkSerializer
 
@@ -94,6 +100,9 @@ class FkCalcAPIView(generics.ListAPIView):
 
 
 class IkCalcAPIView(generics.ListAPIView):
+    """
+        An api endpoint for inverse kinematics calculation.
+    """
     permission_classes = (AllowAny,)
     # serializer_class = IkSerializer
 
