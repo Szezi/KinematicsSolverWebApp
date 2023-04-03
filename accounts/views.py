@@ -12,6 +12,9 @@ from .models import User
 
 
 class CustomLoginView(LoginView):
+    """
+        Login view.
+    """
     template_name = 'accounts/sign-in.html'
     fields = '__all__'
     redirect_authenticated_user = True
@@ -26,6 +29,9 @@ class CustomLoginView(LoginView):
 
 
 class CustomRegisterView(FormView):
+    """
+        Register view.
+    """
     template_name = 'accounts/sign-up.html'
     form_class = MyUserCreationForm
     redirect_authenticated_user = True
@@ -49,6 +55,10 @@ class CustomRegisterView(FormView):
 
 
 class UserDetail(LoginRequiredMixin, DetailView):
+    """
+        DetailView of users profile details of authenticated user.\n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'accounts/profile_detail.html'
     model = User
     context_object_name = 'profile'
@@ -63,6 +73,11 @@ class UserDetail(LoginRequiredMixin, DetailView):
 
 
 class UserUpdate(LoginRequiredMixin, UpdateView):
+    """
+        UpdateView of users profile details of authenticated user.\n
+        Unauthenticated user is redirected to home page.
+    """
+
     template_name = 'accounts/profile_update.html'
     model = User
     fields = ['description', 'avatar', 'bio', 'city', 'phoneNumber', 'first_name', 'last_name']
@@ -82,6 +97,10 @@ class UserUpdate(LoginRequiredMixin, UpdateView):
 
 
 class UserInfo(LoginRequiredMixin, DetailView):
+    """
+        DetailView of selected user.\n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'accounts/profile_info.html'
     model = User
     context_object_name = 'profile'
@@ -93,6 +112,10 @@ class UserInfo(LoginRequiredMixin, DetailView):
 
 
 class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    """
+        Password change view of authenticated user.\n
+        Unauthenticated user is redirected to home page.
+    """
     form_class = CustomPasswordChangeForm
     template_name = 'accounts/change_password.html'
     fields = '__all__'
@@ -108,6 +131,10 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 
 class EmailChangeView(LoginRequiredMixin, UpdateView):
+    """
+        Email change view of authenticated user.\n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'accounts/change_email.html'
     model = User
     context_object_name = 'profile'

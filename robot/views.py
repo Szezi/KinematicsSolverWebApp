@@ -12,6 +12,16 @@ from robot.robotic_arm import RoboticArm
 
 
 class DashboardView(ListView):
+    """
+        Dashboard View with basic information about users projects stats.\n
+        Displayed users stats: \
+        -number of projects user is member of \n
+        -number of calculated fk \n
+        -number of calculated ik \n
+        -number of projects user is admin of \n
+        -parameters of last created robot \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = "robot/dashboard.html"
     model = Robot
     context_object_name = 'robots'
@@ -33,6 +43,10 @@ class DashboardView(ListView):
 
 
 class ProjectDetail(LoginRequiredMixin, DetailView):
+    """
+        Projects details view. \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/project_detail.html'
     model = Project
     context_object_name = 'project'
@@ -51,6 +65,12 @@ class ProjectDetail(LoginRequiredMixin, DetailView):
 
 
 class ProjectCreate(LoginRequiredMixin, CreateView):
+    """
+        Create new project. \n
+        Field to be filled: name, description, admin, members. \n
+        Logged user is add to admin and members as initial value. \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/project_form.html'
     model = Project
     fields = ['name', 'description', 'admin', 'members']
@@ -69,6 +89,12 @@ class ProjectCreate(LoginRequiredMixin, CreateView):
 
 
 class ProjectUpdate(LoginRequiredMixin, UpdateView):
+    """
+        Update project. \n
+        Only projects admin can edit project. \n
+        Fields to modify: name, description, admin, members. \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/project_update.html'
     model = Project
     fields = ['name', 'description', 'admin', 'members']
@@ -88,6 +114,11 @@ class ProjectUpdate(LoginRequiredMixin, UpdateView):
 
 
 class ProjectDelete(LoginRequiredMixin, DeleteView):
+    """
+        Delete project. \n
+        Only projects admin can delete project. \n
+        Unauthenticated user is redirected to home page.
+    """
     model = Project
     context_object_name = 'project'
     success_url = reverse_lazy('dashboard')
@@ -106,6 +137,10 @@ class ProjectDelete(LoginRequiredMixin, DeleteView):
 
 
 class RobotDetail(LoginRequiredMixin, DetailView):
+    """
+        Robotic arm details view. \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/robot_detail.html'
     model = Robot
     context_object_name = 'robot'
@@ -124,6 +159,16 @@ class RobotDetail(LoginRequiredMixin, DetailView):
 
 
 class RobotCreate(LoginRequiredMixin, CreateView):
+    """
+        Create new robotic arm. \n
+        Field to be filled: \n
+        'project', 'name', 'description', 'notes', \n
+        'link1', 'link2', 'link3', 'link4', 'link5', \n
+        'link1_min', 'link2_min', 'link3_min', 'link4_min', 'link5_min', \n
+        'link1_max', 'link2_max', 'link3_max', 'link4_max', 'link5_max' \n
+        Logged user is add to owner field as initial value. \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/robot_form.html'
     model = Robot
     fields = ['project', 'name', 'description', 'notes', 'link1', 'link2', 'link3', 'link4', 'link5', 'link1_min', 'link2_min', 'link3_min', 'link4_min', 'link5_min', 'link1_max', 'link2_max', 'link3_max', 'link4_max', 'link5_max']
@@ -145,6 +190,11 @@ class RobotCreate(LoginRequiredMixin, CreateView):
 
 
 class RobotUpdate(LoginRequiredMixin, UpdateView):
+    """
+        Update robotic arm. \n
+        Only projects member can edit robotic arm. \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/robot_update.html'
     model = Robot
     fields = ['name', 'description', 'notes', 'link1', 'link2', 'link3', 'link4', 'link5', 'link1_min', 'link2_min', 'link3_min', 'link4_min', 'link5_min', 'link1_max', 'link2_max', 'link3_max', 'link4_max', 'link5_max']
@@ -164,6 +214,11 @@ class RobotUpdate(LoginRequiredMixin, UpdateView):
 
 
 class RobotDelete(LoginRequiredMixin, DeleteView):
+    """
+        Delete robotic arm. \n
+        Only projects member can delete robotic arm. \n
+        Unauthenticated user is redirected to home page.
+    """
     model = Robot
     context_object_name = 'robot'
     success_url = reverse_lazy('dashboard')
@@ -182,6 +237,11 @@ class RobotDelete(LoginRequiredMixin, DeleteView):
 
 
 class FkCreate(LoginRequiredMixin, CreateView):
+    """
+        Create forward kinematics calculation record. \n
+        Fields to modify: 'Robot', 'name', 'notes', 'theta1', 'theta2', 'theta3', 'theta4' \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/fk_form.html'
     model = ForwardKinematics
     fields = ['Robot', 'name', 'notes', 'theta1', 'theta2', 'theta3', 'theta4']
@@ -207,6 +267,11 @@ class FkCreate(LoginRequiredMixin, CreateView):
 
 
 class FkUpdate(LoginRequiredMixin, UpdateView):
+    """
+        Display and update forward kinematics calculation. \n
+        Fields to modify: 'notes', 'theta1', 'theta2', 'theta3', 'theta4' \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/fk_update.html'
     model = ForwardKinematics
     fields = ['notes', 'theta1', 'theta2', 'theta3', 'theta4']
@@ -233,6 +298,14 @@ class FkUpdate(LoginRequiredMixin, UpdateView):
         return context
 
     def calculate_fk(self, theta1, theta2, theta3, theta4):
+        """
+            Calculate forward kinematics of robotic arm.
+            :param theta1: theta1 value
+            :param theta2: theta2 value
+            :param theta3: theta3 value
+            :param theta4: theta4 value
+            :return: result_xyz, dh_table
+        """
         context = self.get_context_data()
         links = {"link1": [context['link1'], context['link1_min'], context['link1_max']],
                  "link2": [context['link2'], context['link2_min'], context['link2_max']],
@@ -284,6 +357,11 @@ class FkUpdate(LoginRequiredMixin, UpdateView):
 
 
 class IkCreate(LoginRequiredMixin, CreateView):
+    """
+        Create inverse kinematics calculation record. \n
+        Fields to modify: 'Robot', 'name', 'notes', 'x', 'y', 'z', 'alpha' \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/ik_form.html'
     model = InverseKinematics
     fields = ['Robot', 'name', 'notes', 'x', 'y', 'z', 'alpha']
@@ -309,6 +387,11 @@ class IkCreate(LoginRequiredMixin, CreateView):
 
 
 class IkUpdate(LoginRequiredMixin, UpdateView):
+    """
+        Display and update inverse kinematics calculation. \n
+        Fields to modify: 'notes', 'x', 'y', 'z', 'alpha' \n
+        Unauthenticated user is redirected to home page.
+    """
     template_name = 'robot/ik_update.html'
     model = InverseKinematics
     fields = ['notes', 'x', 'y', 'z', 'alpha']
@@ -335,6 +418,14 @@ class IkUpdate(LoginRequiredMixin, UpdateView):
         return context
 
     def calculate_ik(self, x, y, z, alpha):
+        """
+            Calculate inverse kinematics of robotic arm.
+            :param x: x values
+            :param y: y value
+            :param z: z value
+            :param alpha: alpha value
+            :return: config1, config2
+            """
         context = self.get_context_data()
         links = {"link1": [context['link1'], context['link1_min'], context['link1_max']],
                  "link2": [context['link2'], context['link2_min'], context['link2_max']],
